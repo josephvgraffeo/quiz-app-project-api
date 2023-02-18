@@ -1,7 +1,6 @@
 import { dbConnect } from "./dbConnect.js";
-import { mongoCredentials } from "../service_account.js";
 
-const collectionName = mongoCredentials.COLLECTION;
+const collectionName = "series";
 
 //Get: Get All
 export async function getAllDoc(req, res) {

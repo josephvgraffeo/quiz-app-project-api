@@ -2,9 +2,14 @@ import express from "express";
 import cors from "cors";
 import functions from "firebase-functions";
 import { getAllDoc, postDoc } from "./src/functions.js";
+import { signup } from "./src/auth.js";
 
 const app = express();
 app.use(cors());
+app.use(express.json());
+
+// login and signup routes
+app.post('/signup', signup);
 
 //GET: Get All
 app.get("/series", getAllDoc);
