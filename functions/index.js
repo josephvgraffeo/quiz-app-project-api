@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import functions from "firebase-functions";
-import { getAllDoc, postDoc, getTargetedQuestion, getAllQuestions, getEasyQuestions } from "./src/functions.js";
+import { getAllDoc, postDoc, getTargetedQuizQuestions, getAllQuestions, getEasyQuestions } from "./src/functions.js";
 import { signup } from "./src/auth.js";
 
 const app = express();
@@ -20,12 +20,10 @@ app.get("/questions", getAllQuestions);
 //GET: All EASY questions
 app.get("/questions/:diffID", getEasyQuestions);
 
-//GET: single question with questionID
-app.get(`/questions/:questionID`, getTargetedQuestion);
+//GET: All questions for a given series and difficulty
+app.get(`/questions/:seriesID/:diffID`, getTargetedQuizQuestions);
 
 //POST: Doc 
 app.post("/post", postDoc);
-
-app.get("/questions/:seriesID/:diffID", easyOPQuestions);
 
 export const api = functions.https.onRequest(app);

@@ -22,24 +22,20 @@ export async function getAllQuestions(req, res) {
 //GET: All Questions with EASY difficulty
 export async function getEasyQuestions(req, res) {
     const db = dbConnect();
-    const collection = await db.collection("questions").find({ diffID: "diffEASY" }).toArray();
+    const diffID = req.params.diffID
+    const collection = await db.collection("questions").find({ diffID: diffID }).toArray();
     
-    console.table(collection);
     res.send(collection);
 }
 
-//GET: Single question using questionID
-export async function getTargetedQuestion(req, res) {
+//GET: Questions for a series and difficulty level
+export async function getTargetedQuizQuestions(req, res) {
     const db = dbConnect();
-    const questionID = req.params.questionID
-    const collection = await db.collection("questions").where({ questionID: questionID }).toArray();
+    const seriesID = req.params.seriesID
+    const diffID = req.params.diffID
+    const collection = await db.collection("questions").find({ seriesID: seriesID, diffID: diffID }).toArray();
     
     res.send(collection);
-}
-
-//GET: Easy OP questions (targeted query test)
-export async function easyOPQuestions(req, res) {
-    
 }
 
 //Post: Doc
@@ -47,7 +43,7 @@ export async function postDoc(req, res) {
     const newDoc = req.body
 
     const db = dbConnect();
-    await db.collection("series").insertOne(newDoc)
+    await db.collection("questions").insertOne(newDoc)
         .catch(err => {
             res.status(500).send(err)
             return
